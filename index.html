@@ -839,7 +839,7 @@
           category: 'WALK & SCENERY',
           title: '발걸음이 닿은 가을 골목과 카페',
           desc: '노란 단풍이 물든 고즈넉한 골목길을 천천히 걸으며 만난 예쁜 동네 카페와 가을 풍경 아카이브입니다.',
-          image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80',
+          image: './images/autumn_cafe_real.jpg',
           btnText: '영상/사진 감상',
           url: '#channels'
         },
@@ -877,7 +877,7 @@
         if (parsed.about && parsed.about.image === 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80') {
           parsed.about.image = DEFAULT_DATA.about.image;
         }
-        if (parsed.cards && parsed.cards[1] && (parsed.cards[1].image === 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80')) {
+        if (parsed.cards && parsed.cards[1]) {
           parsed.cards[1].image = DEFAULT_DATA.cards[1].image;
           parsed.cards[1].title = DEFAULT_DATA.cards[1].title;
           parsed.cards[1].desc = DEFAULT_DATA.cards[1].desc;
