@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROGI LOG — 관리자 페이지 (CMS)</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg: #F4F6F6;
+      --surface: #FFFFFF;
+      --text: #222222;
+      --muted: #666666;
+      --accent: #1BA89A;
+      --accent-hover: #148F82;
+      --accent-soft: rgba(27, 168, 154, 0.12);
+      --border: #E2E8E7;
+      --danger: #E11D48;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* 상단 관리자 헤더 */
+    .admin-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-badge {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .admin-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: all 0.18s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-danger {
+      background: #FFF1F2;
+      color: var(--danger);
+      border-color: #FECDD3;
+    }
+
+    .btn-danger:hover {
+      background: #FFE4E6;
+    }
+
+    /* 메인 레이아웃 (좌측 사이드 탭 + 우측 폼) */
+    .admin-layout {
+      max-width: 1240px;
+      margin: 28px auto;
+      padding: 0 24px 60px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar-nav {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      position: sticky;
+      top: 84px;
+    }
+
+    .tab-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      background: #F8FAFA;
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .panel {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .panel-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .panel-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+    }
+
+    textarea.form-control {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    /* 리스트 아이템 카드 (메뉴, 아카이브 카드, 채널) */
+    .item-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      background: #FAFBFB;
+      margin-bottom: 14px;
+    }
+
+    .item-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      color: var(--accent-hover);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .chip button {
+      border: none;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1E293B;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 820px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar-nav {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        gap: 6px;
+      }
+      .tab-btn {
+        white-space: nowrap;
+        width: auto;
+      }
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 관리자 툴바 -->
+  <header class="admin-header">
+    <div class="admin-brand">
+      <span class="admin-badge">CMS ADMIN</span>
+      <h1 class="admin-title">ROGI LOG 홈페이지 관리자</h1>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-outline" onclick="exportJson()">📥 설정 백업(JSON)</button>
+      <button type="button" class="btn btn-outline" onclick="resetDefault()">↺ 초기값 복원</button>
+      <a href="index.html" class="btn btn-outline">🌐 홈페이지 보기</a>
+      <button type="button" class="btn btn-primary" onclick="saveAll()">💾 변경사항 저장</button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <!-- 좌측 카테고리별 메뉴 탭 -->
+    <aside class="sidebar-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-menus', this)">1. 상단 메뉴 &amp; 브랜드</button>
+      <button class="tab-btn" onclick="switchTab('tab-hero', this)">2. 첫화면(Hero) &amp; 소개</button>
+      <button class="tab-btn" onclick="switchTab('tab-archive', this)">3. 카테고리 &amp; 기록 카드</button>
+      <button class="tab-btn" onclick="switchTab('tab-channels', this)">4. SNS 채널 &amp; 문의 푸터</button>
+    </aside>
+
+    <!-- 우측 편집 패널 -->
+    <main>
+      <!-- 탭 1: 상단 메뉴 & 브랜드 -->
+      <section id="tab-menus" class="panel active">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">상단 메뉴(GNB) &amp; 브랜드 설정</h2>
+            <p class="panel-desc">로고명, 포인트 컬러, 상단 네비게이션 메뉴 항목을 자유롭게 추가·수정합니다.</p>
+          </div>
+          <button type="button" class="btn btn-outline" onclick="addMenu()">+ 새 메뉴 추가</button>
+        </div>
+
+        <div class="form-row-2" style="margin-bottom: 24px;">
+          <div class="form-group">
+            <label>상단 로고 텍스트</label>
+            <input type="text" id="inp-logo" class="form-control" placeholder="ROGI LOG" />
+          </div>
+          <div class="form-group">
+            <label>포인트 컬러 (현재 민트: #1BA89A)</label>
+            <div style="display:flex; gap:10px;">
+              <input type="color" id="inp-color-picker" style="width:48px; height:40px; border:1px solid var(--border); border-radius:8px; cursor:pointer;" onchange="document.getElementById('inp-color').value = this.value" />
+              <input type="text" id="inp-color" class="form-control" placeholder="#1BA89A" oninput="document.getElementById('inp-color-picker').value = this.value" />
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-bottom:12px;">네비게이션 메뉴 목록</h3>
+        <div id="menu-list-container"></div>
+      </section>
+
+      <!-- 탭 2: Hero & About Me -->
+      <section id="tab-hero" class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">첫화면(Hero) &amp; 프로필 소개(About Me)</h2>
+            <p class="panel-desc">메인 타이틀, 자기소개 문구, 프로필 사진과 핵심 키워드 태그를 관리합니다.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>상단 작은 배지 (Eyebrow)</label>
+              <input type="text" id="inp-hero-eyebrow" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label>CTA 버튼 문구</label>
+              <input type="text" id="inp-hero-cta" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>메인 타이틀</label>
+            <input type="text" id="inp-hero-title" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label>서브 타이틀</label>
+            <input type="text" id="inp-hero-subtitle" class="form-control" />
+          </div>
+
+          <hr style="border:none; border-top:1px solid var(--border); margin: 8px 0;" />
+
+          <div class="form-group">
+            <label>프로필 사진 이미지 URL</label>
+            <input type="text" id="inp-about-img" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label>About Me 소개 본문</label>
+            <textarea id="inp-about-quote" class="form-control"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>키워드 배지 (쉼표로 구분하여 입력)</label>
+            <input type="text" id="inp-about-tags" class="form-control" placeholder="#디지털라이프, #로컬기록, #웰니스루틴" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 탭 3: 카테고리 & 아카이브 카드 -->
+      <section id="tab-archive" class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">카테고리 &amp; 주요 활동 카드(Archive) 관리</h2>
+            <p class="panel-desc">카테고리 탭을 추가하거나 각 카테고리별 포트폴리오 카드를 업데이트합니다.</p>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="addCard()">+ 새 활동 카드 추가</button>
+        </div>
+
+        <!-- 카테고리 관리 영역 -->
+        <div style="margin-bottom: 24px;">
+          <label style="display:block; font-size:0.86rem; font-weight:600; margin-bottom:8px;">등록된 카테고리 탭</label>
+          <div class="chip-list" id="category-chip-list"></div>
+          <div style="display:flex; gap:8px; max-width: 420px;">
+            <input type="text" id="inp-new-category" class="form-control" placeholder="새 카테고리명 (예: BOOK & NOTE)" />
+            <button type="button" class="btn btn-outline" style="white-space:nowrap;" onclick="addCategory()">카테고리 추가</button>
+          </div>
+        </div>
+
+        <!-- 카드 목록 영역 -->
+        <div id="card-list-container"></div>
+      </section>
+
+      <!-- 탭 4: SNS 채널 & 푸터 -->
+      <section id="tab-channels" class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">SNS 채널 버튼 &amp; 하단 문의 관리</h2>
+            <p class="panel-desc">블로그, 인스타그램, 유튜브 등 외부 채널 링크와 이메일 주소를 수정합니다.</p>
+          </div>
+          <button type="button" class="btn btn-outline" onclick="addChannel()">+ SNS 채널 추가</button>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label>SNS 섹션 안내 문구</label>
+          <input type="text" id="inp-channels-msg" class="form-control" />
+        </div>
+
+        <div id="channel-list-container" style="margin-bottom: 28px;"></div>
+
+        <hr style="border:none; border-top:1px solid var(--border); margin: 20px 0;" />
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>협업 및 문의 이메일</label>
+            <input type="email" id="inp-footer-email" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>하단 카피라이트 문구</label>
+            <input type="text" id="inp-footer-copy" class="form-control" />
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast">✅ 변경사항이 저장되었습니다! 홈페이지에 즉시 반영됩니다.</div>
+
+  <script>
+    const STORAGE_KEY = 'rogi_site_data_v1';
+
+    const DEFAULT_DATA = {
+      brand: {
+        logo: 'ROGI LOG',
+        nickname: '로기(Rogi)',
+        accentColor: '#1BA89A'
+      },
+      menus: [
+        { id: 'm1', label: '소개', href: '#about', visible: true },
+        { id: 'm2', label: '주요기록', href: '#archive', visible: true },
+        { id: 'm3', label: 'SNS 채널', href: '#channels', visible: true },
+        { id: 'm4', label: '문의', href: '#contact', visible: true }
+      ],
+      hero: {
+        eyebrow: 'Rogi Archive',
+        title: '기록과 배움으로 일상을 채워갑니다.',
+        subtitle: '도구를 익히고 동네와 삶의 이야기를 담는 로기(Rogi)의 아카이브 공간입니다.',
+        ctaText: '주요 기록 둘러보기'
+      },
+      about: {
+        image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+        quote: '“오랜 시간 다져온 꼼꼼함과 차분한 시선으로 일상의 가치를 기록합니다.\n새로운 디지털 도구와 AI를 배우며, 걷기 여행과 로컬의 따뜻한 풍경을 콘텐츠로 엮어냅니다.”',
+        tags: ['#디지털라이프', '#로컬기록', '#웰니스루틴']
+      },
+      categories: ['WRITING & LOG', 'WALK & SCENERY', 'AI & TOOLS'],
+      cards: [
+        {
+          id: 'c1',
+          category: 'WRITING & LOG',
+          title: '생각을 정리하는 글 기록',
+          desc: '일상 속 작은 발견과 시선을 글로 담아내는 네이버 블로그 대표 이야기들입니다.',
+          image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=900&q=80',
+          btnText: '블로그 글 읽기',
+          url: '#channels'
+        },
+        {
+          id: 'c2',
+          category: 'WALK & SCENERY',
+          title: '발걸음이 닿은 골목과 자연',
+          desc: '지역 곳곳을 천천히 걸으며 담아낸 숏폼 영상과 풍경 사진 아카이브입니다.',
+          image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80',
+          btnText: '영상/사진 감상',
+          url: '#channels'
+        },
+        {
+          id: 'c3',
+          category: 'AI & TOOLS',
+          title: '도구 탐구와 소모임 나눔',
+          desc: '새로운 AI 툴 활용법을 익히고, 함께 성장하는 사람들과 나누는 경험 기록입니다.',
+          image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+          btnText: '활동 기록 보기',
+          url: '#channels'
+        }
+      ],
+      channels: {
+        message: '다양한 채널에서 저와 이야기를 나눌 수 있습니다.',
+        items: [
+          { id: 'ch1', badge: 'N', label: '블로그 바로가기', url: 'https://blog.naver.com' },
+          { id: 'ch2', badge: '', label: 'Instagram 둘러보기', url: 'https://www.instagram.com' },
+          { id: 'ch3', badge: '', label: 'YouTube 채널 보기', url: 'https://www.youtube.com' }
+        ]
+      },
+      footer: {
+        email: 'your_email@gmail.com',
+        copyright: '© 2026 Rogi. All rights reserved.'
+      }
+    };
+
+    let state = loadData();
+
+    function loadData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+      } catch (e) {
+        return JSON.parse(JSON.stringify(DEFAULT_DATA));
+      }
+    }
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function populateForms() {
+      // 탭 1
+      document.getElementById('inp-logo').value = state.brand.logo || '';
+      document.getElementById('inp-color').value = state.brand.accentColor || '#1BA89A';
+      document.getElementById('inp-color-picker').value = state.brand.accentColor || '#1BA89A';
+      renderMenus();
+
+      // 탭 2
+      document.getElementById('inp-hero-eyebrow').value = state.hero.eyebrow || '';
+      document.getElementById('inp-hero-cta').value = state.hero.ctaText || '';
+      document.getElementById('inp-hero-title').value = state.hero.title || '';
+      document.getElementById('inp-hero-subtitle').value = state.hero.subtitle || '';
+      document.getElementById('inp-about-img').value = state.about.image || '';
+      document.getElementById('inp-about-quote').value = state.about.quote || '';
+      document.getElementById('inp-about-tags').value = (state.about.tags || []).join(', ');
+
+      // 탭 3
+      renderCategories();
+      renderCards();
+
+      // 탭 4
+      document.getElementById('inp-channels-msg').value = state.channels.message || '';
+      renderChannels();
+      document.getElementById('inp-footer-email').value = state.footer.email || '';
+      document.getElementById('inp-footer-copy').value = state.footer.copyright || '';
+    }
+
+    function renderMenus() {
+      const container = document.getElementById('menu-list-container');
+      container.innerHTML = state.menus.map((m, idx) => `
+        <div class="item-card" style="display:grid; grid-template-columns: 1fr 1fr auto auto; gap:12px; align-items:center;">
+          <input type="text" class="form-control" value="${m.label}" placeholder="메뉴명" oninput="state.menus[${idx}].label = this.value" />
+          <input type="text" class="form-control" value="${m.href}" placeholder="이동 경로 (예: #archive)" oninput="state.menus[${idx}].href = this.value" />
+          <label style="display:flex; align-items:center; gap:6px; font-size:0.85rem; cursor:pointer;">
+            <input type="checkbox" ${m.visible !== false ? 'checked' : ''} onchange="state.menus[${idx}].visible = this.checked" />
+            노출
+          </label>
+          <button type="button" class="btn btn-danger" onclick="removeMenu(${idx})">삭제</button>
+        </div>
+      `).join('');
+    }
+
+    function addMenu() {
+      state.menus.push({ id: 'm_' + Date.now(), label: '새 메뉴', href: '#archive', visible: true });
+      renderMenus();
+    }
+
+    function removeMenu(idx) {
+      state.menus.splice(idx, 1);
+      renderMenus();
+    }
+
+    function renderCategories() {
+      const list = document.getElementById('category-chip-list');
+      list.innerHTML = state.categories.map((cat, idx) => `
+        <span class="chip">
+          ${cat}
+          <button type="button" title="카테고리 삭제" onclick="removeCategory(${idx})">×</button>
+        </span>
+      `).join('');
+    }
+
+    function addCategory() {
+      const inp = document.getElementById('inp-new-category');
+      const val = inp.value.trim();
+      if (!val) return;
+      if (!state.categories.includes(val)) {
+        state.categories.push(val);
+      }
+      inp.value = '';
+      renderCategories();
+      renderCards();
+    }
+
+    function removeCategory(idx) {
+      state.categories.splice(idx, 1);
+      renderCategories();
+      renderCards();
+    }
+
+    function renderCards() {
+      const container = document.getElementById('card-list-container');
+      container.innerHTML = state.cards.map((card, idx) => {
+        const options = state.categories.map(cat =>
+          `<option value="${cat}" ${card.category === cat ? 'selected' : ''}>${cat}</option>`
+        ).join('');
+        return `
+          <div class="item-card">
+            <div class="item-card-header">
+              <strong>카드 #${idx + 1} — ${card.title}</strong>
+              <button type="button" class="btn btn-danger" onclick="removeCard(${idx})">카드 삭제</button>
+            </div>
+            <div class="form-grid">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>카테고리 분류</label>
+                  <select class="form-control" onchange="state.cards[${idx}].category = this.value">
+                    ${options}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>카드 제목</label>
+                  <input type="text" class="form-control" value="${card.title}" oninput="state.cards[${idx}].title = this.value" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>요약 설명</label>
+                <input type="text" class="form-control" value="${card.desc}" oninput="state.cards[${idx}].desc = this.value" />
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label>썸네일 이미지 URL</label>
+                  <input type="text" class="form-control" value="${card.image}" oninput="state.cards[${idx}].image = this.value" />
+                </div>
+                <div class="form-group">
+                  <label>버튼 텍스트 &amp; 링크 URL</label>
+                  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                    <input type="text" class="form-control" value="${card.btnText}" placeholder="버튼 문구" oninput="state.cards[${idx}].btnText = this.value" />
+                    <input type="text" class="form-control" value="${card.url}" placeholder="이동 링크" oninput="state.cards[${idx}].url = this.value" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addCard() {
+      state.cards.push({
+        id: 'c_' + Date.now(),
+        category: state.categories[0] || 'WRITING & LOG',
+        title: '새로운 활동 기록',
+        desc: '관리자 페이지에서 추가한 새로운 카드 설명입니다.',
+        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=900&q=80',
+        btnText: '자세히 보기',
+        url: '#channels'
+      });
+      renderCards();
+    }
+
+    function removeCard(idx) {
+      state.cards.splice(idx, 1);
+      renderCards();
+    }
+
+    function renderChannels() {
+      const container = document.getElementById('channel-list-container');
+      container.innerHTML = state.channels.items.map((ch, idx) => `
+        <div class="item-card" style="display:grid; grid-template-columns: 90px 1fr 1fr auto; gap:10px; align-items:center;">
+          <input type="text" class="form-control" value="${ch.badge || ''}" placeholder="배지(예:N)" oninput="state.channels.items[${idx}].badge = this.value" />
+          <input type="text" class="form-control" value="${ch.label}" placeholder="버튼 이름" oninput="state.channels.items[${idx}].label = this.value" />
+          <input type="text" class="form-control" value="${ch.url}" placeholder="https://..." oninput="state.channels.items[${idx}].url = this.value" />
+          <button type="button" class="btn btn-danger" onclick="removeChannel(${idx})">삭제</button>
+        </div>
+      `).join('');
+    }
+
+    function addChannel() {
+      state.channels.items.push({ id: 'ch_' + Date.now(), badge: '', label: '새 채널 바로가기', url: 'https://' });
+      renderChannels();
+    }
+
+    function removeChannel(idx) {
+      state.channels.items.splice(idx, 1);
+      renderChannels();
+    }
+
+    function collectFormValues() {
+      state.brand.logo = document.getElementById('inp-logo').value.trim();
+      state.brand.accentColor = document.getElementById('inp-color').value.trim() || '#1BA89A';
+      state.hero.eyebrow = document.getElementById('inp-hero-eyebrow').value.trim();
+      state.hero.ctaText = document.getElementById('inp-hero-cta').value.trim();
+      state.hero.title = document.getElementById('inp-hero-title').value.trim();
+      state.hero.subtitle = document.getElementById('inp-hero-subtitle').value.trim();
+      state.about.image = document.getElementById('inp-about-img').value.trim();
+      state.about.quote = document.getElementById('inp-about-quote').value;
+      state.about.tags = document.getElementById('inp-about-tags').value
+        .split(',')
+        .map(t => t.trim())
+        .filter(Boolean);
+      state.channels.message = document.getElementById('inp-channels-msg').value.trim();
+      state.footer.email = document.getElementById('inp-footer-email').value.trim();
+      state.footer.copyright = document.getElementById('inp-footer-copy').value.trim();
+    }
+
+    function saveAll() {
+      collectFormValues();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      showToast('✅ 변경사항이 저장되었습니다! 홈페이지에 즉시 반영됩니다.');
+    }
+
+    function resetDefault() {
+      if (!confirm('모든 설정을 초기 기획안 상태로 되돌릴까요?')) return;
+      state = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      populateForms();
+      showToast('↺ 초기 설정으로 복원되었습니다.');
+    }
+
+    function exportJson() {
+      collectFormValues();
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'rogi-site-config.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2600);
+    }
+
+    document.addEventListener('DOMContentLoaded', populateForms);
+  </script>
+</body>
+</html>
