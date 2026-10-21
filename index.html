@@ -741,7 +741,7 @@
           <div class="about-image-wrap">
             <img
               id="el-about-img"
-              src="https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=800&q=80"
+              src="./images/profile_walk.jpg"
               alt="푸른 자연과 햇살 길 프로필 이미지"
             />
           </div>
@@ -819,7 +819,7 @@
         ctaText: '주요 기록 둘러보기'
       },
       about: {
-        image: 'https://images.unsplash.com/photo-1470246973918-29a93221c455?auto=format&fit=crop&w=800&q=80',
+        image: './images/profile_walk.jpg',
         quote: '“오랜 시간 다져온 꼼꼼함과 차분한 시선으로 일상의 가치를 기록합니다.\n새로운 디지털 도구와 AI를 배우며, 걷기 여행과 로컬의 따뜻한 풍경을 콘텐츠로 엮어냅니다.”',
         tags: ['#디지털라이프', '#로컬기록', '#웰니스루틴']
       },
@@ -830,7 +830,7 @@
           category: '생각과 일상',
           title: '생각을 정리하는 글 기록',
           desc: '일상 속 작은 발견과 시선을 글로 담아내는 네이버 블로그 대표 이야기들입니다.',
-          image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=900&q=80',
+          image: './images/writing_desk.jpg',
           btnText: '블로그 글 읽기',
           url: '#channels'
         },
@@ -848,7 +848,7 @@
           category: '배움과 공유',
           title: '도구 탐구와 소모임 나눔',
           desc: '새로운 AI 툴 활용법을 익히고, 함께 성장하는 사람들과 나누는 경험 기록입니다.',
-          image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+          image: './images/ai_tools.jpg',
           btnText: '활동 기록 보기',
           url: '#channels'
         }
@@ -874,17 +874,19 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return DEFAULT_DATA;
         const parsed = Object.assign({}, DEFAULT_DATA, JSON.parse(raw));
-        // 한글 카테고리 및 제목 최신화 동기화
+        parsed.about.image = DEFAULT_DATA.about.image;
         parsed.hero.eyebrow = DEFAULT_DATA.hero.eyebrow;
         parsed.categories = DEFAULT_DATA.categories;
         if (parsed.cards && parsed.cards.length >= 3) {
+          parsed.cards[0].image = DEFAULT_DATA.cards[0].image;
           parsed.cards[0].category = DEFAULT_DATA.cards[0].category;
           parsed.cards[0].title = DEFAULT_DATA.cards[0].title;
           parsed.cards[0].desc = DEFAULT_DATA.cards[0].desc;
+          parsed.cards[1].image = DEFAULT_DATA.cards[1].image;
           parsed.cards[1].category = DEFAULT_DATA.cards[1].category;
           parsed.cards[1].title = DEFAULT_DATA.cards[1].title;
           parsed.cards[1].desc = DEFAULT_DATA.cards[1].desc;
-          parsed.cards[1].image = DEFAULT_DATA.cards[1].image;
+          parsed.cards[2].image = DEFAULT_DATA.cards[2].image;
           parsed.cards[2].category = DEFAULT_DATA.cards[2].category;
           parsed.cards[2].title = DEFAULT_DATA.cards[2].title;
           parsed.cards[2].desc = DEFAULT_DATA.cards[2].desc;
