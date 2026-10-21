@@ -1,2 +1,6 @@
-﻿*.zip
+*.zip
 deploy/
+images/autumn-cafe-*.jpg
+images/autumn-cafe.jpg
+images/*_b64.txt
+images/*_opt.jpg
