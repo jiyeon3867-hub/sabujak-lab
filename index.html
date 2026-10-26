@@ -695,6 +695,327 @@
         max-width: 320px;
       }
     }
+
+    /* =========================================
+       [섹션] 단체·기업 견적 문의 스타일
+       ========================================= */
+    .quote-section {
+      padding: 96px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .quote-card {
+      background: var(--surface-color);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-card);
+      padding: 48px;
+      box-shadow: var(--shadow-card);
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .quote-card:hover {
+      box-shadow: 0 16px 36px rgba(27, 168, 154, 0.08);
+      border-color: rgba(27, 168, 154, 0.35);
+    }
+
+    .quote-header {
+      text-align: center;
+      margin-bottom: 38px;
+    }
+
+    .quote-title {
+      font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .quote-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 540px;
+      margin: 0 auto;
+      word-break: keep-all;
+    }
+
+    .quote-form {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 680px) {
+      .quote-card {
+        padding: 28px 20px;
+      }
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .form-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .form-label .required-dot {
+      color: #E5484D;
+      font-weight: 700;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 13px 16px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .form-control::placeholder {
+      color: #9AA7A4;
+      font-size: 0.9rem;
+    }
+
+    .form-control:hover {
+      border-color: rgba(27, 168, 154, 0.45);
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(27, 168, 154, 0.16);
+    }
+
+    select.form-control {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23586763' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.6;
+    }
+
+    .privacy-box {
+      background: rgba(244, 247, 246, 0.85);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .privacy-check-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      user-select: none;
+    }
+
+    .privacy-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-color);
+      cursor: pointer;
+    }
+
+    .privacy-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      padding-left: 28px;
+    }
+
+    .quote-submit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(27, 168, 154, 0.28);
+      transition: all 0.25s ease;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+
+    .quote-submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(27, 168, 154, 0.38);
+    }
+
+    .quote-submit-btn:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      border-top-color: #FFFFFF;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    .quote-submit-btn.is-loading .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .form-alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .form-alert.is-error {
+      display: block;
+      background: #FFF1F0;
+      border: 1px solid #FFCCC7;
+      color: #CF1322;
+    }
+
+    .quote-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(18, 25, 24, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    .quote-modal-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .quote-modal {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 36px 30px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.18);
+      transform: scale(0.92);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .quote-modal-backdrop.is-open .quote-modal {
+      transform: scale(1);
+    }
+
+    .modal-icon-wrap {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 16px;
+      background: rgba(27, 168, 154, 0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-color);
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .modal-desc {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      word-break: keep-all;
+    }
+
+    .modal-close-btn {
+      width: 100%;
+      padding: 13px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--accent-color);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      font-family: inherit;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--accent-hover);
+    }
   </style>
 </head>
 <body>
@@ -780,9 +1101,176 @@
         </div>
       </div>
     </section>
+
+    <!-- [섹션 05] Quote Request (단체·기업 견적 문의) -->
+    <section class="quote-section" id="quote-request">
+      <div class="container">
+        <div class="quote-card">
+          <div class="quote-header">
+            <span class="section-label">B2B INQUIRY</span>
+            <h2 class="quote-title">단체 · 기업 견적 문의</h2>
+            <p class="quote-subtitle">
+              행사, 워크숍, 강연 및 단체 협업에 대한 맞춤형 견적을 제안해 드립니다.<br>
+              아래 항목을 작성해 주시면 꼼꼼히 검토 후 신속하게 연락드리겠습니다.
+            </p>
+          </div>
+
+          <form id="quoteForm" class="quote-form" novalidate>
+            <!-- 1행: 기업/단체명 & 담당자 성함 -->
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="quoteCompany" class="form-label">
+                  기업 / 단체명 <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="quoteCompany"
+                  name="company"
+                  class="form-control"
+                  placeholder="(주)로기스튜디오 또는 소속 단체명"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="quoteName" class="form-label">
+                  담당자 성함 <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="quoteName"
+                  name="name"
+                  class="form-control"
+                  placeholder="홍길동 팀장"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- 2행: 연락처 & 이메일 -->
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="quotePhone" class="form-label">
+                  연락처 <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="quotePhone"
+                  name="phone"
+                  class="form-control"
+                  placeholder="010-0000-0000"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="quoteEmail" class="form-label">
+                  이메일 <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="quoteEmail"
+                  name="email"
+                  class="form-control"
+                  placeholder="contact@company.com"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- 3행: 행사/희망 일정 & 예상 인원 -->
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="quoteDate" class="form-label">
+                  행사 / 희망 일정 <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="date"
+                  id="quoteDate"
+                  name="event_date"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="quoteHeadcount" class="form-label">
+                  예상 인원 (명) <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="quoteHeadcount"
+                  name="headcount"
+                  class="form-control"
+                  placeholder="예: 30"
+                  min="1"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- 4행: 예산 범위 -->
+            <div class="form-group">
+              <label for="quoteBudget" class="form-label">
+                예산 범위 <span class="required-dot" aria-hidden="true">*</span>
+              </label>
+              <select id="quoteBudget" name="budget" class="form-control" required>
+                <option value="" disabled selected>예산 범위를 선택해 주세요</option>
+                <option value="100만 원 미만">100만 원 미만</option>
+                <option value="100~300만 원">100~300만 원</option>
+                <option value="300~500만 원">300~500만 원</option>
+                <option value="500만 원 이상">500만 원 이상</option>
+                <option value="협의">협의</option>
+              </select>
+            </div>
+
+            <!-- 5행: 세부 요청 사항 -->
+            <div class="form-group">
+              <label for="quoteMessage" class="form-label">
+                세부 요청 사항 <span class="required-dot" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="quoteMessage"
+                name="message"
+                class="form-control"
+                rows="4"
+                placeholder="행사의 목적, 희망 커리큘럼/프로그램, 장소 등 고려 중이신 내용을 자유롭게 적어주세요."
+                required
+              ></textarea>
+            </div>
+
+            <!-- 6행: 개인정보 수집 및 이용 동의 -->
+            <div class="privacy-box">
+              <label class="privacy-check-label">
+                <input
+                  type="checkbox"
+                  id="quotePrivacy"
+                  name="privacy_agree"
+                  class="privacy-checkbox"
+                  required
+                />
+                <span>개인정보 수집 및 이용에 동의합니다. <span class="required-dot" aria-hidden="true">*</span></span>
+              </label>
+              <p class="privacy-desc">
+                수집 항목(기업명, 성함, 연락처, 이메일 등)은 견적 문의 검토 및 상담 회신 목적으로만 사용되며, 안전하게 보관 후 파기됩니다.
+              </p>
+            </div>
+
+            <!-- 에러 알림 메시지 영역 -->
+            <div id="quoteAlert" class="form-alert" role="alert"></div>
+
+            <!-- 전송 버튼 -->
+            <button type="submit" id="quoteSubmitBtn" class="quote-submit-btn">
+              <span class="spinner" aria-hidden="true"></span>
+              <span class="btn-text">견적 문의 접수하기</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- [섹션 05] Contact & Footer -->
+  <!-- [섹션 06] Contact & Footer -->
   <footer class="site-footer" id="contact">
     <div class="container">
       <p class="footer-contact">
@@ -791,6 +1279,23 @@
       <p class="footer-copy" id="el-footer-copy">© 2026 Rogi. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- 접수 완료 모달 (Modal) -->
+  <div id="quoteSuccessModal" class="quote-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="quote-modal">
+      <div class="modal-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </div>
+      <h3 id="modalTitle" class="modal-title">견적 문의가 정상 접수되었습니다. 곧 연락드리겠습니다.</h3>
+      <p class="modal-desc">
+        소중한 문의가 안전하게 전달되었습니다.<br>
+        내용을 꼼꼼히 확인한 후 남겨주신 연락처/이메일로 신속히 안내해 드리겠습니다.
+      </p>
+      <button type="button" id="modalCloseBtn" class="modal-close-btn">확인</button>
+    </div>
+  </div>
 
   <!-- 관리자 페이지 이동 플로팅 버튼 -->
   <a href="admin.html" class="admin-fab" title="콘텐츠 및 메뉴 관리">
@@ -810,7 +1315,8 @@
         { id: 'm1', label: '소개', href: '#about', visible: true },
         { id: 'm2', label: '주요기록', href: '#archive', visible: true },
         { id: 'm3', label: 'SNS 채널', href: '#channels', visible: true },
-        { id: 'm4', label: '문의', href: '#contact', visible: true }
+        { id: 'm4', label: '견적문의', href: '#quote-request', visible: true },
+        { id: 'm5', label: '문의', href: '#contact', visible: true }
       ],
       hero: {
         eyebrow: '로기의 기록 서재',
@@ -895,6 +1401,15 @@
           parsed.channels.items[0].label = '네이버 블로그 바로가기';
           parsed.channels.items[1].label = '인스타그램 둘러보기';
           parsed.channels.items[2].label = '유튜브 채널 보기';
+        }
+        if (parsed.menus && !parsed.menus.some(m => m.href === '#quote-request')) {
+          const contactIdx = parsed.menus.findIndex(m => m.href === '#contact');
+          const newMenu = { id: 'm_quote', label: '견적문의', href: '#quote-request', visible: true };
+          if (contactIdx !== -1) {
+            parsed.menus.splice(contactIdx, 0, newMenu);
+          } else {
+            parsed.menus.push(newMenu);
+          }
         }
         return parsed;
       } catch (e) {
@@ -1006,6 +1521,120 @@
 
     window.addEventListener('storage', renderSite);
     document.addEventListener('DOMContentLoaded', renderSite);
+
+    // =========================================
+    // [연동] 단체·기업 견적 문의 연동 스크립트
+    // =========================================
+    (function initQuoteForm() {
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbNUERQyjvTGccxwYwUItT43qWnfd3fTISUXS2DA-GalGBmKHgM2fkAcmO6zRFYLAC3A/exec";
+
+      const form = document.getElementById("quoteForm");
+      if (!form) return;
+
+      const submitBtn = document.getElementById("quoteSubmitBtn");
+      const btnText = submitBtn.querySelector(".btn-text");
+      const alertBox = document.getElementById("quoteAlert");
+      const modal = document.getElementById("quoteSuccessModal");
+      const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+      function showError(message) {
+        if (!alertBox) return;
+        alertBox.textContent = message;
+        alertBox.className = "form-alert is-error";
+        alertBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function clearError() {
+        if (!alertBox) return;
+        alertBox.textContent = "";
+        alertBox.className = "form-alert";
+      }
+
+      function openModal() {
+        if (modal) {
+          modal.classList.add("is-open");
+          if (modalCloseBtn) modalCloseBtn.focus();
+        }
+      }
+
+      function closeModal() {
+        if (modal) modal.classList.remove("is-open");
+      }
+
+      if (modalCloseBtn) {
+        modalCloseBtn.addEventListener("click", closeModal);
+      }
+      if (modal) {
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) closeModal();
+        });
+      }
+      window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal && modal.classList.contains("is-open")) {
+          closeModal();
+        }
+      });
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        clearError();
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const formData = new FormData(form);
+        const payload = {
+          company: (formData.get("company") || "").trim(),
+          name: (formData.get("name") || "").trim(),
+          phone: (formData.get("phone") || "").trim(),
+          email: (formData.get("email") || "").trim(),
+          event_date: formData.get("event_date") || "",
+          headcount: formData.get("headcount") || "",
+          budget: formData.get("budget") || "",
+          message: (formData.get("message") || "").trim(),
+          privacy_agree: formData.get("privacy_agree") ? "동의" : "미동의",
+          submitted_at: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })
+        };
+
+        // 버튼 상태: 접수 중... 및 스피너 활성화
+        submitBtn.disabled = true;
+        submitBtn.classList.add("is-loading");
+        btnText.textContent = "접수 중...";
+
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+            throw new Error("네트워크 오류: " + response.status);
+          }
+
+          const result = await response.json().catch(() => ({ result: "success" }));
+
+          if (result && result.result === "error") {
+            throw new Error(result.message || "서버 처리 중 오류가 발생했습니다.");
+          }
+
+          // 접수 성공: 폼 초기화 및 새로고침 없는 모달 팝업 표시
+          form.reset();
+          openModal();
+        } catch (error) {
+          console.error("[Quote Submit Error]", error);
+          showError("견적 문의 접수 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해 주시거나 대표 연락처/이메일로 직접 문의해 주세요.");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("is-loading");
+          btnText.textContent = "견적 문의 접수하기";
+        }
+      });
+    })();
   </script>
 </body>
 </html>
